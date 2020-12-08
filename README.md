@@ -1,2 +1,6 @@
 # BMI-calculator
-Body Mass Index(BMI) is a measure of body fat by using height and weight of the body. In other words body fat should based of the height and weight of the body.
+1. Download the  folder.(Do not move the images provided in the folder to some other location)
+
+2.Simply run the html file using your browser.
+
+
