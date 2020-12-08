@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+BMI Calculator
+</title>
+<style>
+body {
+	margin:0px;
+	
+	font-family:"Lucida Console"
+	
+}
+input[type="text"]::placeholder {
+	text-align:right;
+}
+
+#container {
+	
+	width:500px;
+	margin:auto;
+	height:auto;
+	padding:12px;
+	position:relative;
+	top:40px;
+	text-align:center;
+	background-color:#fd8c04;
+	border:none;
+	border-radius:10px;
+	box-shadow: 5px 10px 3px #393e46;
+	
+}
+
+#container1 {
+	position:relative;
+	margin:auto;
+	top:10px;
+	padding:8px;
+	width:300px;
+	
+	
+	background-color:#fff76a;
+	border-radius:10px;
+	box-shadow: 5px 10px 3px #393e46;
+}
+input.inputfield {
+	padding:4px;
+	border:2px solid black;
+	font-weight:700;
+	border-radius:6px;
+	
+}
+button.btn {
+	border:2px solid black;
+	border-radius:5px;
+	
+	padding:6px;
+	font-weight:bold;
+	
+	
+}
+.btn:hover {
+	background-image:linear-gradient(to left, #8ad7c1,#03506f );
+}
+p.heading {
+	font-size:18px;
+}
+@media only screen and (max-width:500px) {
+	#container {
+		
+		
+		width:280px;
+		
+	}
+}
+@media only screen and (max-width:500px) {
+	#container1 {
+		width:250px;
+	}
+}
+</style>
+</head>
+<body bgcolor="#98acf8">
+<div id="container" >
+<p class="heading">BMI(Body Mass Index) Calculator</p>
+<p class="label">Height</p>
+<p><input type="text" id="height" placeholder="cm" class="inputfield"></input></p>
+<p class="label">Weight</p>
+<p><input type="text" id="weight" placeholder="kg" class="inputfield"></input></p>
+<p class="label">Gender</p>
+<div>
+<input type="radio" name="gender" value="Male" checked>Male</input>
+<input type="radio" name="gender" value="Female">Female</input>
+</div>
+<p>Age&nbsp;<input type="number" id="age" style="width:70px" class="inputfield"></input></p>
+<button type="button" id="calculate" class="btn">Calculate</button>
+<button type="button" id="clear" class="btn">Clear</button>
+
+
+<div id="container1" style="visibility:hidden;">
+<div><img src="arrow-down.png" id="marker" style="visibility:hidden;"/></div>
+<img src="IndicatorBG.png" width="100%" id="indicatorimg" style="visibility:hidden;"/>
+<p id="bmi"></p> 
+</div>
+</div>
+
+
+<script>
+//(1.39 x BMI) + (0.16 x age) - (10.34 x gender) - 9
+var b_height=document.getElementById("height")
+var b_weight=document.getElementById("weight")
+var calculate_btn=document.getElementById("calculate")
+var set_bmi=document.getElementById("bmi")
+var b_gender=document.getElementsByName("gender")
+var Gender
+var b_age=document.getElementById("age")
+var clear_btn=document.getElementById("clear")
+var displaybox=document.getElementById("container1")
+var fat
+var b_arrow=document.getElementById("marker")
+var b_indicator=document.getElementById("indicatorimg")
+var treatment
+function calculate_bmi() {
+	if(b_height.value!="" && b_weight.value!="" && b_age.value!="")
+	{	//(1.39 x BMI) + (0.16 x age) - (10.34 x gender) - 9
+		var Height=parseFloat(b_height.value)/100
+		var Weight=parseFloat(b_weight.value)
+		var bmi=Weight/(Height*Height)
+		var Age=b_age.value
+		if(Age<=1) {
+			alert("Age can't be negative or should greater than 1year")
+		}
+		else {
+		bmi=Math.round(bmi*10)/10
+		
+		for(var i=0;i<b_gender.length;i++){
+			if(b_gender[i].checked){
+				Gender=b_gender[i].value;
+				break;
+			}
+		
+		
+		}
+		if(Gender=="Male"){
+			fat=(1.39*bmi)+(0.16*Age)-(10.34*1)-9
+			fat=fat.toFixed(2)
+		}
+		else{
+			fat=(1.39*bmi)+(0.16*Age)-(10.34*0)-9
+			fat=fat.toFixed(2)
+		}
+		if(fat<0){
+			fat=0
+		}
+		if(bmi<=18.5){
+			var classification="Underweight"
+			b_arrow.style.marginLeft="-250px";
+			
+			treatment="Eat frequent but small meals.<br>Eat lots of raw fruits and vegetables (green leafy vegetables are great)"
+			
+		}
+		else if(18.5<bmi && bmi<=24.99){
+			var classification="Normal weight"
+			b_arrow.style.marginLeft="-100px";
+			treatment="Your body is normal"
+		}
+		else if(24.99<bmi && bmi<=29.99){
+			var classification="Overweight"
+			b_arrow.style.marginLeft="0px";
+			treatment="Eliminate Red Meat<br>Cut out fried foods<br>Start with a soup or a salad"
+			
+		}
+		else if(29.99<bmi && bmi<=34.99){
+			var classification="Obesity(Class 1)"
+			b_arrow.style.marginLeft="100px";
+			treatment="Try to lose as little as 7-10 percent of your body weight "
+		}
+		else if(34.99<bmi && bmi<=39.99){
+			var classification="Obesity(Class 2)"
+			b_arrow.style.marginLeft="200px";
+			treatment="Eat  pasta, rice, wholemeal bread, and other whole-grain foods.<br>Reduce your fat-intake. "
+			
+			
+		}
+		else if(bmi>=40){
+			var classification="Morbid Obesity"
+			b_arrow.style.marginLeft="250px";
+			treatment="You should be careful in your diet.<br>DO not eat junk foods"
+			
+		}
+		else{
+			alert("Invalid BMI")
+		}
+		displaybox.style.visibility="visible";
+		b_indicator.style.visibility="visible";
+		b_arrow.style.visibility="visible";
+		console.log(typeof(b_arrow.style.marginLeft))
+		console.log(typeof(bmi))
+		
+		console.log(b_arrow.style.marginLeft)
+		set_bmi.innerHTML="Age: "+String(Age)+"<br>"+"Height: "+String(b_height.value)+" cm"+"<br>"+"Weight: "+String(b_weight.value)+" kg"+"<br>"+"BMI: "+String(bmi)+" kg/m2"+"<br>"+"BMI Classification: "+classification+"<br>"+"Body Fat: "+String(fat)+" %"+"<br>"+"Treatment: "+treatment
+		}
+		
+	
+	
+	}
+	else
+	{
+		alert("Please Enter all Values")
+	}
+}
+function clearall() {
+
+	b_height.value="";
+	b_weight.value="";
+	b_age.value="";
+	displaybox.style.visibility="hidden";
+	b_arrow.style.visibility="hidden";
+	b_indicator.style.visibility="hidden";
+	
+	
+	
+}
+calculate_btn.onclick=calculate_bmi
+clear_btn.onclick=clearall
+</script>
+</body>
+</html>
